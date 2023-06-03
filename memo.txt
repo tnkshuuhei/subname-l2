@@ -1,0 +1,52 @@
+1 {
+  name: 'goerli',
+  config: {
+    accounts: [
+      '0xee3d77c37fd26a40803adf8b3e534013d0fa268a37be29808964c3f310dcde62'
+    ],
+    gas: 'auto',
+    gasPrice: 'auto',
+    gasMultiplier: 1,
+    httpHeaders: {},
+    timeout: 20000,
+    url: 'https://eth-goerli.g.alchemy.com/v2/3s4QY8XlWxB6Hz1uJTHLSpr6sAaWB5Rc',
+    chainId: 5,
+    gatewayurl: 'https://op-resolver-example.uc.r.appspot.com/{sender}/{data}.json'
+  },
+  provider: BackwardsCompatibilityProviderAdapter {
+    _wrapped: ChainIdValidatorProvider {
+      _wrapped: [AutomaticGasPriceProvider],
+      _wrappedProvider: [AutomaticGasPriceProvider],
+      _expectedChainId: 5,
+      _alreadyValidated: false
+    },
+    _provider: ChainIdValidatorProvider {
+      _wrapped: [AutomaticGasPriceProvider],
+      _wrappedProvider: [AutomaticGasPriceProvider],
+      _expectedChainId: 5,
+      _alreadyValidated: false
+    },
+    sendAsync: [Function: bound sendAsync],
+    send: [Function: bound send],
+    _sendJsonRpcRequest: [Function: bound _sendJsonRpcRequest] AsyncFunction
+  }
+} {
+  mainnet: '0xdE1FCfB0851916CA5101820A69b13a4E276bd81F',
+  goerli: '0xa6f73589243a6A7a9023b1Fa0651b1d89c177111'
+}
+2
+Current gas price: 9303332202
+Estimated gas: 3437361
+Deployer balance:  0.33325667218511948
+Deployment price:  0.031978911281198922
+3 0xa6f73589243a6A7a9023b1Fa0651b1d89c177111 [ 'https://op-resolver-example.uc.r.appspot.com/{sender}/{data}.json' ] 0x7532E1538f0bad58f38F28992F105Dd1600D7fce
+4
+OptimismResolverStub deployed at 0x3E03915004F65CA1B2DD6Dd0F50242fDf056160d
+https://goerli.etherscan.io/address/0x3E03915004F65CA1B2DD6Dd0F50242fDf056160d#code
+
+// 	OptimismResolver deployed to 0xE90106262eCB759aE87a77C21b85C804bDe55E80
+// {
+//   TEST_NAME: 'opresolver.eth',
+//   TEST_NODE: '0xacdd24943af2f161ccb59a28f62738275e07c40b6148234d4d2a549396286453'
+// }
+// Address set to 0xd4dB78F13Bc28c84211f2D8795B1aAd6c24e56bB
