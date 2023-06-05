@@ -11,7 +11,7 @@ require("dotenv").config();
 
 let RESOLVER_ADDRESS;
 async function main() {
-  console.log(1, hre.network, CONSTANTS.OVM_ADDRESS_MANAGERS);
+  // console.log(1, hre.network, CONSTANTS.OVM_ADDRESS_MANAGERS);
   let OVM_ADDRESS_MANAGER;
   if (hre.network.name == "localhost") {
     const metadata = await (
@@ -31,7 +31,7 @@ async function main() {
    * L1 deploy
    ************************************/
   const accounts = await ethers.getSigners();
-
+  console.log("account[0].address: ", accounts[0].address);
   // Deploy the resolver stub
   console.log(2);
   const OptimismResolverStub = await ethers.getContractFactory(
@@ -39,32 +39,37 @@ async function main() {
   );
 
   //////////////////////////////////////
-  // estimate gas
-  const gasPrice = await OptimismResolverStub.signer.getGasPrice();
-  console.log(`Current gas price: ${gasPrice}`);
-  const estimatedGas = await OptimismResolverStub.signer.estimateGas(
-    OptimismResolverStub.getDeployTransaction(
-      OVM_ADDRESS_MANAGER,
-      [hre.network.config.gatewayurl],
-      RESOLVER_ADDRESS
-    )
-  );
-  console.log(`Estimated gas: ${estimatedGas}`);
-  const deploymentPrice = gasPrice.mul(estimatedGas);
-  const deployerBalance = await OptimismResolverStub.signer.getBalance();
-  console.log(
-    `Deployer balance:  ${ethers.utils.formatEther(deployerBalance)}`
-  );
-  console.log(
-    `Deployment price:  ${ethers.utils.formatEther(deploymentPrice)}`
-  );
-  if (deployerBalance.lt(deploymentPrice)) {
-    throw new Error(
-      `Insufficient funds. Top up your account balance by ${ethers.utils.formatEther(
-        deploymentPrice.sub(deployerBalance)
-      )}`
-    );
-  }
+  // // estimate gas
+  // const gasPrice = await OptimismResolverStub.signer.getGasPrice();
+  // console.log(`Current gas price: ${gasPrice}`);
+  // console.log(
+  //   OVM_ADDRESS_MANAGER,
+  //   [hre.network.config.gatewayurl],
+  //   RESOLVER_ADDRESS
+  // );
+  // const estimatedGas = await OptimismResolverStub.signer.estimateGas(
+  //   OptimismResolverStub.getDeployTransaction(
+  //     OVM_ADDRESS_MANAGER,
+  //     [hre.network.config.gatewayurl],
+  //     RESOLVER_ADDRESS
+  //   )
+  // );
+  // console.log(`Estimated gas: ${estimatedGas}`);
+  // const deploymentPrice = gasPrice.mul(estimatedGas);
+  // const deployerBalance = await OptimismResolverStub.signer.getBalance();
+  // console.log(
+  //   `Deployer balance:  ${ethers.utils.formatEther(deployerBalance)}`
+  // );
+  // console.log(
+  //   `Deployment price:  ${ethers.utils.formatEther(deploymentPrice)}`
+  // );
+  // if (deployerBalance.lt(deploymentPrice)) {
+  //   throw new Error(
+  //     `Insufficient funds. Top up your account balance by ${ethers.utils.formatEther(
+  //       deploymentPrice.sub(deployerBalance)
+  //     )}`
+  //   );
+  // }
   //////////////////////////////////////
   console.log(
     3,
@@ -82,41 +87,51 @@ async function main() {
   console.log(`OptimismResolverStub deployed at ${stub.address}`);
 
   // Create test.test owned by us
-  if (hre.network.name === "localhost") {
-    // Deploy the ENS registry
-    const ENS = await ethers.getContractFactory("ENSRegistry");
-    const ens = await ENS.deploy();
-    await ens.deployed();
-    console.log(`ENS registry deployed at ${ens.address}`);
+  // if (hre.network.name === "localhost") {
+  // Deploy the ENS registry
+  const ENS = await ethers.getContractFactory("ENSRegistry");
+  const ens = await ENS.deploy();
+  await ens.deployed();
+  console.log(`ENS registry deployed at ${ens.address}`);
 
-    let tx = await ens.setSubnodeOwner(
-      "0x" + "00".repeat(32),
-      ethers.utils.keccak256(ethers.utils.toUtf8Bytes("0xshutanaka")),
-      accounts[0].address
-    );
-    tx = await ens.setSubnodeOwner(
-      namehash.hash("0xshutanaka"),
-      ethers.utils.keccak256(ethers.utils.toUtf8Bytes("eth")),
-      accounts[0].address
-    );
+  let tx = await ens.setSubnodeOwner(
+    "0x" + "00".repeat(32),
+    ethers.utils.keccak256(ethers.utils.toUtf8Bytes("0xshutanaka")),
+    accounts[0].address,
+    { gasLimit: ethers.BigNumber.from("5000000") }
+  );
+  tx = await ens.setSubnodeOwner(
+    namehash.hash("0xshutanaka"),
+    ethers.utils.keccak256(ethers.utils.toUtf8Bytes("eth")),
+    accounts[0].address,
+    { gasLimit: ethers.BigNumber.from("5000000") }
+  );
 
-    rcpt = await tx.wait();
-    console.log(18);
-    // Set the stub as the resolver for test.test
-    tx = await ens.setResolver(namehash.hash("0xshutanaka.eth"), stub.address);
-    rcpt = await tx.wait();
-    console.log(19, ens.address);
-    console.log(await ens.owner(namehash.hash("0xshutanaka.eth")));
-    console.log(await ens.resolver(namehash.hash("0xshutanaka.eth")));
-    console.log(hre.network.config, ens.address);
-    provider = new ethers.providers.JsonRpcProvider(hre.network.config.url, {
-      chainId: hre.network.config.chainId,
-      name: "unknown",
-      ensAddress: ens.address,
-    });
-    const ens2 = new ethers.Contract(ens.address, abi, provider);
-    console.log(await ens2.resolver(namehash.hash("0xshutanaka.eth")));
-  }
+  rcpt = await tx.wait();
+  console.log(18);
+  // ここまではできてる;
+
+  // // Set the stub as the resolver for test.test
+  // tx = await ens.setResolver(namehash.hash("0xshutanaka.eth"), stub.address, {
+  //   gasLimit: ethers.BigNumber.from("10000000"),
+  // });
+  // rcpt = await tx.wait();
+
+  console.log(19, ens.address);
+  console.log("Owner: ", await ens.owner(namehash.hash("opresolver.eth")));
+  console.log(
+    "Resolver:",
+    await ens.resolver(namehash.hash("0xshutanaka.eth"))
+  );
+  console.log(hre.network.config, ens.address);
+  provider = new ethers.providers.JsonRpcProvider(hre.network.config.url, {
+    chainId: hre.network.config.chainId,
+    name: "unknown",
+    ensAddress: ens.address,
+  });
+  const ens2 = new ethers.Contract(ens.address, abi, provider);
+  console.log(await ens2.resolver(namehash.hash("0xshutanaka.eth")));
+  // }
 }
 
 // We recommend this pattern to be able to use async/await everywhere

@@ -9,7 +9,7 @@ const ENS_REGISTRY_ADDRESS = "0x5e029A439B4A23324A5CC2986234c2152A672524";
 const provideL1 = new ethers.providers.JsonRpcProvider(
   process.env.L1_PROVIDER_URL
 ); // 適切なWeb3プロバイダを設定します
-
+let TEST_NAME = process.env.TEST_NAME;
 async function main() {
   const provider = new ethers.providers.JsonRpcProvider(
     process.env.L2_PROVIDER_URL
@@ -19,7 +19,8 @@ async function main() {
     OptimismResolverABI,
     provider
   );
-  let YOUR_ENS_NAME = "0xshutanaka.eth";
+
+  let YOUR_ENS_NAME = TEST_NAME;
   const nameHash = namehash.hash(YOUR_ENS_NAME);
   const resolvedAddress = await resolverContract["addr(bytes32)"](nameHash);
 

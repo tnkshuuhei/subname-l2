@@ -31,7 +31,8 @@ module.exports = {
       accounts: [process.env.PRIVATE_KEY],
       chainId: 5,
       gatewayurl:
-        "https://op-resolver-example.uc.r.appspot.com/{sender}/{data}.json",
+        // "https://op-resolver-example.uc.r.appspot.com/{sender}/{data}.json",
+        "0x0af7bfb9bc54e4ca0d48c30d6c0396b919c5abd7",
     },
     optimismGoerli: {
       url: process.env.L2_PROVIDER_URL || "http://localhost:8545",
