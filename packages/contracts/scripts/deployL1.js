@@ -94,12 +94,14 @@ async function main() {
   await ens.deployed();
   console.log(`ENS registry deployed at ${ens.address}`);
 
+	
   let tx = await ens.setSubnodeOwner(
     "0x" + "00".repeat(32),
     ethers.utils.keccak256(ethers.utils.toUtf8Bytes("eth")),
     accounts[0].address,
     { gasLimit: ethers.BigNumber.from("5000000") }
   );
+  // set 0xshutanaka as a subnode of eth
   tx = await ens.setSubnodeOwner(
     namehash.hash("eth"),
     ethers.utils.keccak256(ethers.utils.toUtf8Bytes("0xshutanaka")),
@@ -117,7 +119,7 @@ async function main() {
   rcpt = await tx.wait();
 
   console.log(19, ens.address);
-  console.log("Owner: ", await ens.owner(namehash.hash("opresolver.eth")));
+  console.log("Owner: ", await ens.owner(namehash.hash("0xshutanaka.eth")));
   console.log(
     "Resolver:",
     await ens.resolver(namehash.hash("0xshutanaka.eth"))
