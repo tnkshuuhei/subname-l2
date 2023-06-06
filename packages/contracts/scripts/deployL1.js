@@ -94,7 +94,6 @@ async function main() {
   await ens.deployed();
   console.log(`ENS registry deployed at ${ens.address}`);
 
-	
   let tx = await ens.setSubnodeOwner(
     "0x" + "00".repeat(32),
     ethers.utils.keccak256(ethers.utils.toUtf8Bytes("eth")),

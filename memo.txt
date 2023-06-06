@@ -1,49 +1,27 @@
-1 {
-  name: 'goerli',
-  config: {
-    accounts: [
-      '0xee3d77c37fd26a40803adf8b3e534013d0fa268a37be29808964c3f310dcde62'
-    ],
-    gas: 'auto',
-    gasPrice: 'auto',
-    gasMultiplier: 1,
-    httpHeaders: {},
-    timeout: 20000,
-    url: 'https://eth-goerli.g.alchemy.com/v2/3s4QY8XlWxB6Hz1uJTHLSpr6sAaWB5Rc',
-    chainId: 5,
-    gatewayurl: 'https://op-resolver-example.uc.r.appspot.com/{sender}/{data}.json'
-  },
-  provider: BackwardsCompatibilityProviderAdapter {
-    _wrapped: ChainIdValidatorProvider {
-      _wrapped: [AutomaticGasPriceProvider],
-      _wrappedProvider: [AutomaticGasPriceProvider],
-      _expectedChainId: 5,
-      _alreadyValidated: false
-    },
-    _provider: ChainIdValidatorProvider {
-      _wrapped: [AutomaticGasPriceProvider],
-      _wrappedProvider: [AutomaticGasPriceProvider],
-      _expectedChainId: 5,
-      _alreadyValidated: false
-    },
-    sendAsync: [Function: bound sendAsync],
-    send: [Function: bound send],
-    _sendJsonRpcRequest: [Function: bound _sendJsonRpcRequest] AsyncFunction
-  }
-} {
-  mainnet: '0xdE1FCfB0851916CA5101820A69b13a4E276bd81F',
-  goerli: '0xa6f73589243a6A7a9023b1Fa0651b1d89c177111'
-}
+account[0].address:  0xd4dB78F13Bc28c84211f2D8795B1aAd6c24e56bB
 2
-Current gas price: 9303332202
-Estimated gas: 3437361
-Deployer balance:  0.33325667218511948
-Deployment price:  0.031978911281198922
-3 0xa6f73589243a6A7a9023b1Fa0651b1d89c177111 [ 'https://op-resolver-example.uc.r.appspot.com/{sender}/{data}.json' ] 0x7532E1538f0bad58f38F28992F105Dd1600D7fce
+3 0xa6f73589243a6A7a9023b1Fa0651b1d89c177111 [ '0x0af7bfb9bc54e4ca0d48c30d6c0396b919c5abd7' ] 0x3950A41e61c30cE767f9D4fe37234D5D7f62A9d2
 4
-OptimismResolverStub deployed at 0x3E03915004F65CA1B2DD6Dd0F50242fDf056160d
-https://goerli.etherscan.io/address/0x3E03915004F65CA1B2DD6Dd0F50242fDf056160d#code
-
+OptimismResolverStub deployed at 0x06cAdb30706729d59DeAEFfe1C351A60e83c3602
+ENS registry deployed at 0xC6b418Bc05120CD5F5fFe17e1938827F0D07cCCb
+18
+19 0xC6b418Bc05120CD5F5fFe17e1938827F0D07cCCb
+Owner:  0xd4dB78F13Bc28c84211f2D8795B1aAd6c24e56bB
+Resolver: 0x06cAdb30706729d59DeAEFfe1C351A60e83c3602
+{
+  accounts: [
+    '0xee3d77c37fd26a40803adf8b3e534013d0fa268a37be29808964c3f310dcde62'
+  ],
+  gas: 'auto',
+  gasPrice: 'auto',
+  gasMultiplier: 1,
+  httpHeaders: {},
+  timeout: 20000,
+  url: 'https://eth-goerli.g.alchemy.com/v2/3s4QY8XlWxB6Hz1uJTHLSpr6sAaWB5Rc',
+  chainId: 5,
+  gatewayurl: '0x0af7bfb9bc54e4ca0d48c30d6c0396b919c5abd7'
+} 0xC6b418Bc05120CD5F5fFe17e1938827F0D07cCCb
+0x06cAdb30706729d59DeAEFfe1C351A60e83c3602
 OptimismResolver deployed to 0x3950A41e61c30cE767f9D4fe37234D5D7f62A9d2
 {
   TEST_NAME: '0xshutanaka.eth',

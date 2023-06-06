@@ -24,7 +24,7 @@ In a second terminal window, deploy our code to the L1 and L2 chains exposed by 
 
 ```
 $ git clone git@github.com:ensdomains/op-resolver.git
-$ cd op-resolver/contracts
+$ cd op-resolver/packages/contracts
 $ yarn
 $ yarn hardhat --network optimismLocalhost run scripts/deployL2.js
 $ // take notes the resolver address
@@ -64,16 +64,18 @@ You can specify `-v` option to either be `latest`, `finalized`, or the default.
 ### Deploy l2 contract
 
 L1_PROVIDER_URL=L1_PROVIDER_URL L2_PROVIDER_URL=L2_PROVIDER_URL PRIVATE_KEY=PRIVATE_KEY
-npx hardhat --network optimismGoerli run scripts/deployL2.js
+`npx hardhat --network optimismGoerli run scripts/deployL2.js`
 
 ### Deploy l1 contract
 
 L1_PROVIDER_URL=L1_PROVIDER_URL L2_PROVIDER_URL=L2_PROVIDER_URL PRIVATE_KEY=PRIVATE_KEY
-RESOLVER_ADDRESS=RESOLVER_ADDRESS yarn hardhat --network goerli run scripts/deployL1.js
+RESOLVER_ADDRESS=RESOLVER_ADDRESS
+`yarn hardhat --network goerli run scripts/deployL1.js`
 
 ### Verify l1 contract
 
-RESOLVER_ADDRESS= L1_PROVIDER_URL= ETHERSCAN_API_KEY= npx hardhat verify --network goerli --constructor-args scripts/arguments.js CONTRACT_ADDRESS
+RESOLVER_ADDRESS= L1_PROVIDER_URL= ETHERSCAN_API_KEY=
+`npx hardhat verify --network goerli --constructor-args scripts/arguments.js CONTRACT_ADDRESS`
 
 ## Deployed contracts
 
@@ -112,3 +114,16 @@ functions to return the gateway address and required prefix for a query, and to 
 ### [Gateway](gateway)
 
 A node-based gateway server that answers queries for l2 gateway function calls relating to Optimism-based L2 resolvers.
+
+## .env
+
+```
+PRIVATE_KEY=
+L1_PROVIDER_URL=
+L2_PROVIDER_URL=
+ETHERSCAN_API_KEY=
+TEST_NAME=
+RESOLVER_ADDRESS=0x3950A41e61c30cE767f9D4fe37234D5D7f62A9d2
+REGISTRY_ADDRESS=0xC6b418Bc05120CD5F5fFe17e1938827F0D07cCCb
+CONTRACT_ADDRESS=0x06cAdb30706729d59DeAEFfe1C351A60e83c3602
+```
