@@ -96,26 +96,25 @@ async function main() {
 
   let tx = await ens.setSubnodeOwner(
     "0x" + "00".repeat(32),
-    ethers.utils.keccak256(ethers.utils.toUtf8Bytes("0xshutanaka")),
+    ethers.utils.keccak256(ethers.utils.toUtf8Bytes("eth")),
     accounts[0].address,
     { gasLimit: ethers.BigNumber.from("5000000") }
   );
   tx = await ens.setSubnodeOwner(
-    namehash.hash("0xshutanaka"),
-    ethers.utils.keccak256(ethers.utils.toUtf8Bytes("eth")),
+    namehash.hash("eth"),
+    ethers.utils.keccak256(ethers.utils.toUtf8Bytes("0xshutanaka")),
     accounts[0].address,
     { gasLimit: ethers.BigNumber.from("5000000") }
   );
 
   rcpt = await tx.wait();
   console.log(18);
-  // ここまではできてる;
 
-  // // Set the stub as the resolver for test.test
-  // tx = await ens.setResolver(namehash.hash("0xshutanaka.eth"), stub.address, {
-  //   gasLimit: ethers.BigNumber.from("10000000"),
-  // });
-  // rcpt = await tx.wait();
+  // Set the stub as the resolver for test.test
+  tx = await ens.setResolver(namehash.hash("0xshutanaka.eth"), stub.address, {
+    gasLimit: ethers.BigNumber.from("10000000"),
+  });
+  rcpt = await tx.wait();
 
   console.log(19, ens.address);
   console.log("Owner: ", await ens.owner(namehash.hash("opresolver.eth")));

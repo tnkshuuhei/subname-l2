@@ -8,7 +8,7 @@ const OptimismResolverStubABI = require("../artifacts/contracts/l1/OptimismResol
 const ENS_REGISTRY_ADDRESS = "0x5e029A439B4A23324A5CC2986234c2152A672524";
 const provideL1 = new ethers.providers.JsonRpcProvider(
   process.env.L1_PROVIDER_URL
-); // 適切なWeb3プロバイダを設定します
+);
 let TEST_NAME = process.env.TEST_NAME;
 async function main() {
   const provider = new ethers.providers.JsonRpcProvider(
