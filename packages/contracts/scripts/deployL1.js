@@ -95,33 +95,39 @@ async function main() {
   console.log(`ENS registry deployed at ${ens.address}`);
 
   let tx = await ens.setSubnodeOwner(
-    "0x" + "00".repeat(32),
-    ethers.utils.keccak256(ethers.utils.toUtf8Bytes("eth")),
+    // "0x" + "00".repeat(32),
+    namehash.hash("0xshutanaka.eth"),
+    ethers.utils.keccak256(ethers.utils.toUtf8Bytes("gpt")),
+    // "0x06aa005386F53Ba7b980c61e0D067CaBc7602a62",
     accounts[0].address,
     { gasLimit: ethers.BigNumber.from("5000000") }
   );
   // set 0xshutanaka as a subnode of eth
-  tx = await ens.setSubnodeOwner(
-    namehash.hash("eth"),
-    ethers.utils.keccak256(ethers.utils.toUtf8Bytes("0xshutanaka")),
-    accounts[0].address,
-    { gasLimit: ethers.BigNumber.from("5000000") }
-  );
+  // tx = await ens.setSubnodeOwner(
+  //   namehash.hash("eth"),
+  //   ethers.utils.keccak256(ethers.utils.toUtf8Bytes("0xshutanaka")),
+  //   accounts[0].address,
+  //   { gasLimit: ethers.BigNumber.from("5000000") }
+  // );
 
   rcpt = await tx.wait();
   console.log(18);
 
-  // Set the stub as the resolver for test.test
-  tx = await ens.setResolver(namehash.hash("0xshutanaka.eth"), stub.address, {
-    gasLimit: ethers.BigNumber.from("10000000"),
-  });
+  // Set the stub as the resolver for 0xshutanaka.eth
+  tx = await ens.setResolver(
+    namehash.hash("gpt.0xshutanaka.eth"),
+    stub.address,
+    {
+      gasLimit: ethers.BigNumber.from("10000000"),
+    }
+  );
   rcpt = await tx.wait();
 
   console.log(19, ens.address);
-  console.log("Owner: ", await ens.owner(namehash.hash("0xshutanaka.eth")));
+  console.log("Owner: ", await ens.owner(namehash.hash("gpt.0xshutanaka.eth")));
   console.log(
     "Resolver:",
-    await ens.resolver(namehash.hash("0xshutanaka.eth"))
+    await ens.resolver(namehash.hash("gpt.0xshutanaka.eth"))
   );
   console.log(hre.network.config, ens.address);
   provider = new ethers.providers.JsonRpcProvider(hre.network.config.url, {
@@ -130,7 +136,7 @@ async function main() {
     ensAddress: ens.address,
   });
   const ens2 = new ethers.Contract(ens.address, abi, provider);
-  console.log(await ens2.resolver(namehash.hash("0xshutanaka.eth")));
+  console.log(await ens2.resolver(namehash.hash("gpt.0xshutanaka.eth")));
   // }
 }
 
